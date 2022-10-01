@@ -1,0 +1,257 @@
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papildymai AUTO.vedlys.lt</title>
+  <link rel="stylesheet" href="{% static 'css/vedlys_auto.css' %}">
+</head>
+
+<body class="w3-light-grey">
+
+  <!-- Top container -->
+  <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+    <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i
+        class="fa fa-bars"></i>  Išskleisti</button>
+    <span class="w3-bar-item w3-right">AUTO.vedlys.lt</span>
+  </div>
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container w3-row">
+      <div class="w3-col s8 w3-bar">
+        <span>Prisijungęs: <strong>{{user.username}}</strong></span><br>
+        <a href="#" class="w3-bar-item w3-button">Paskyra<i class="fa fa-envelope"></i></a>
+        <a href="#" class="w3-bar-item w3-button">Nustatymai<i class="fa fa-user"></i></a>
+        <a href="{% url 'logOut' %}" class="w3-bar-item w3-button">Atsijungti<i class="fa fa-cog"></i></a>
+      </div>
+    </div>
+    <hr>
+    <div class="w3-container">
+      <h5 class="w3-xlarge">Subaru Forester</h5>
+    </div>
+    <div class="w3-container w3-hover-black">
+      <h6><a href="#">Lexus CT 200h</a></h6>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+        onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Uždaryti</a>
+        <a href="{% url 'apzvalgaHtml' %}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Apžvalga</a>
+        <a href="{% url 'papildymaHtml' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Papildymai</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Statistika</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Transporto
+        priemonės</a><br><br>
+    </div>
+  </nav>
+
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+    <!-- Header -->
+    <header class="w3-container" style="padding-top:20px">
+      <h3><b><i class="fa fa-dashboard"></i> Papildymai: Subaru Forester</b></h3>
+    </header>
+
+    <div class="w3-container">
+      <h5>Naujausi sustojimai</h5>
+      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+        <tr>
+          <th>Data</th>
+          <th>Papildyta (L)</th>
+          <th>Odometras (KM)</th>
+          <th>Suma (€)</th>
+        </tr>
+        {% if user.is_authenticated%}
+          {% for sustojimas in sustojimai %}
+            {% if sustojimas.userID == user %}
+                <tr>
+                  <td>{{sustojimas.data}}</td>
+                  <td>{{sustojimas.papildyta}} L</td>
+                  <td>{{sustojimas.odometras}} km</td>
+                  <td>{{sustojimas.suma}} €</td>
+                </tr>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </table><br>
+      <button class="w3-button w3-dark-grey">Peržiūrėti sustojimus  <i class="fa fa-arrow-right"></i></button>
+      <button class="w3-button w3-dark-grey"><a href="{% url 'sustojimasAddHtml' %}" style="text-decoration: none">Pridėti sustojimą </a> <i class="fa fa-arrow-right"></i></button>
+    </div>
+    <div class="w3-panel">
+      <div class="w3-row-padding" style="margin:0 -16px">
+        <div class="w3-third">
+          <h5>Transporto piremonė</h5>
+          <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
+        </div>
+        <div class="w3-twothird">
+          <h5>Statistika</h5>
+          <table class="w3-table w3-striped w3-white">
+            <tr>
+              <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+              <td>Odometras</td>
+              <td><i>{{odometras}} KM+</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+              <td>Vidutinės sąnaudos</td>
+              <td><i>10,5 L/100KM</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+              <td>Maksimalios sąnaudos</td>
+              <td><i>14,6 L/100KM</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+              <td>Minimalios sąnaudos</td>
+              <td><i>8,3 L/100KM</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
+              <td>Sustojimai</td>
+              <td><i>{{sustojimaiPrideta}}+</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
+              <td>Papildyta</td>
+              <td><i>{{suma}} L+</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+              <td>Nuvažiuotas atstumas</td>
+              <td><i>{{nuvaziuotasAtstumas}} KM+</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
+              <td>Atstumas per dieną</td>
+              <td><i>{{atstumasPerDiena}} KM+</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
+              <td>Sąnaudos per dieną</td>
+              <td><i>4,38 L</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
+              <td>New comments.</td>
+              <td><i>25 mins</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
+              <td>Check transactions.</td>
+              <td><i>28 mins</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
+              <td>CPU overload.</td>
+              <td><i>35 mins</i></td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
+              <td>New shares.</td>
+              <td><i>39 mins</i></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="w3-container">
+      <h5>General Stats</h5>
+      <p>Pilnai papildyta</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-center w3-padding w3-green" style="width:80%">4/5</div>
+      </div>
+
+      <p>Paskutinės sąnaudos / Vidutinės sąnaudos</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-center w3-padding w3-orange" style="width:70%">10,15 L/100KM</div>
+      </div>
+
+      <p>Bounce Rate</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="w3-container">
+      <h5>Šalis</h5>
+      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+        <tr>
+          <td>Lietuva</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>Latvija</td>
+          <td>1</td>
+        </tr>
+      </table><br>
+    </div>
+    <div class="w3-container w3-dark-grey w3-padding-32">
+      <div class="w3-row">
+        <div class="w3-container w3-third">
+          <h5 class="w3-bottombar w3-border-green">Demographic</h5>
+          <p>Language</p>
+          <p>Country</p>
+          <p>City</p>
+        </div>
+        <div class="w3-container w3-third">
+          <h5 class="w3-bottombar w3-border-red">System</h5>
+          <p>Browser</p>
+          <p>OS</p>
+          <p>More</p>
+        </div>
+        <div class="w3-container w3-third">
+          <h5 class="w3-bottombar w3-border-orange">Target</h5>
+          <p>Users</p>
+          <p>Active</p>
+          <p>Geo</p>
+          <p>Interests</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-light-grey">
+      <h4>VEDLYS AUTO - Nemokama transporto priemonių apskaita ir analitika.</h4>
+      <p>Visos teisės saugomos <a href="https://www.vedlys.lt" target="_blank">vedlys.lt</a></p>
+    </footer>
+
+    <!-- End page content -->
+  </div>
+
+  <script>
+    // Get the Sidebar
+    var mySidebar = document.getElementById("mySidebar");
+
+    // Get the DIV with overlay effect
+    var overlayBg = document.getElementById("myOverlay");
+
+    // Toggle between showing and hiding the sidebar, and add overlay effect
+    function w3_open() {
+      if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+      } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+      }
+    }
+
+    // Close the sidebar with the close button
+    function w3_close() {
+      mySidebar.style.display = "none";
+      overlayBg.style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

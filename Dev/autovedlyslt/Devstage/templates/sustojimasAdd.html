@@ -1,0 +1,19 @@
+
+<form action='sustojimasAdd' method='POST'>
+
+    {% csrf_token %}
+      <h4 style="color: black">Data:</h4>
+      <input type="date" name="data" value="{{today|date:'Y-m-d' }}">
+
+      <h4 style="color: black">Papildyta:</h4>
+      <input  type="number" min="0" max="100" step="0.01" name="papildyta" placeholder="pvz: 10.32"> <font style="color: black">L</font>
+
+      <h4 style="color: black">Odometras:</h4>
+      <input type="number" name="odometras" placeholder="pvz: 239442"> <font style="color: black">km</font>
+
+      <h4 style="color: black">Suma:</h4>
+      <input type="number" min="0" max="100" step="0.01" name="suma" placeholder="pvz: 15"> <font style="color: black">€</font>
+     <br>
+     <br>
+      <input type="submit">   
+  </form>
